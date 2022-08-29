@@ -19,5 +19,7 @@ namespace CpmPedido.Domain.Entities
         public long CidadeId { get; set; }
 
         public virtual Cidade Cidade { get; set; }
+
+        public virtual Cliente Cliente { get; set; }
     }
 }

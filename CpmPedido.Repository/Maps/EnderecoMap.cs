@@ -20,6 +20,11 @@ namespace CpmPedido.Repository.Maps
             builder.Property(x => x.Numero).HasColumnName("numero").HasMaxLength(10);
             builder.Property(x => x.Complemento).HasColumnName("complemento").HasMaxLength(50);
             builder.Property(x => x.Cep).HasColumnName("cep").HasMaxLength(8);
+
+            builder.HasOne(x => x.Cliente).WithOne(x => x.Endereco).HasForeignKey<Cliente>(x => x.EnderecoId);
+
+            builder.Property(x => x.CidadeId).HasColumnName("cidadeid").IsRequired();
+            builder.HasOne(x => x.Cidade).WithMany().HasForeignKey(x => x.CidadeId);
         }
     }
 }
