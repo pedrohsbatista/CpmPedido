@@ -20,6 +20,23 @@ namespace CpmPedido.Repository.Maps
 
             builder.Property(x => x.ImagemId).HasColumnName("imagemid").IsRequired();
             builder.HasOne(x => x.Imagem).WithMany().HasForeignKey(x => x.ImagemId);
+
+            builder
+                .HasMany(x => x.Produtos)
+                .WithMany(x => x.Combos)
+                .UsingEntity<ProdutoCombo>(
+                    x => x.HasOne(x => x.Produto).WithMany().HasForeignKey(x => x.ProdutoId),
+                    x => x.HasOne(x => x.Combo).WithMany().HasForeignKey(x => x.ComboId),
+                    x =>
+                    {
+                        x.ToTable("produtocombo");
+
+                        x.HasKey(x => new { x.ProdutoId, x.ComboId });
+
+                        x.Property(x => x.ProdutoId).HasColumnName("produtoid").IsRequired();
+                        x.Property(x => x.ComboId).HasColumnName("comboid").IsRequired();
+                    }
+                );
         }
     }
 }
