@@ -6,7 +6,7 @@ namespace CpmPedido.Repository.Maps
 {
     public class ProdutoMap : BaseDomainMap<Produto>
     {
-        ProdutoMap() : base("produto")
+        public ProdutoMap() : base("produto")
         {
         }
 
@@ -22,6 +22,23 @@ namespace CpmPedido.Repository.Maps
 
             builder.Property(x => x.CategoriaId).HasColumnName("categoriaid").IsRequired();
             builder.HasOne(x => x.CategoriaProduto).WithMany(x => x.Produtos).HasForeignKey(x => x.CategoriaId);
+
+            builder
+                .HasMany(x => x.Imagens)
+                .WithMany(x => x.Produtos)
+                .UsingEntity<ImagemProduto>(
+                  x => x.HasOne(x => x.Imagem).WithMany().HasForeignKey(x => x.ImagemId),
+                  x => x.HasOne(x => x.Produto).WithMany().HasForeignKey(x => x.ProdutoId),
+                  x =>
+                  {
+                      x.ToTable("imagemproduto");
+
+                      x.HasKey(x => new { x.ProdutoId, x.ImagemId });
+
+                      x.Property(x => x.ImagemId).HasColumnName("imagemid").IsRequired();
+                      x.Property(x => x.ProdutoId).HasColumnName("produtoid").IsRequired();                      
+                  }
+                );
         }
     }
 }

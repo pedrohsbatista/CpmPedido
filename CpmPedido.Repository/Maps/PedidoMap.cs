@@ -6,7 +6,7 @@ namespace CpmPedido.Repository.Maps
 {
     public class PedidoMap : BaseDomainMap<Pedido>
     {
-        PedidoMap() : base("pedido")
+        public PedidoMap() : base("pedido")
         {
         }
 

@@ -6,7 +6,7 @@ namespace CpmPedido.Repository.Maps
 {
     public class CidadeMap : BaseDomainMap<Cidade>
     {
-        CidadeMap() : base("cidade")
+        public CidadeMap() : base("cidade")
         {
         }
 

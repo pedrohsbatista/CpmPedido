@@ -6,7 +6,7 @@ namespace CpmPedido.Repository.Maps
 {
     public class EnderecoMap : BaseDomainMap<Endereco>
     {
-        EnderecoMap() : base("endereco")
+        public EnderecoMap() : base("endereco")
         {
         }
 

@@ -6,7 +6,7 @@ namespace CpmPedido.Repository.Maps
 {
     public class ComboMap : BaseDomainMap<Combo>
     {
-        ComboMap() : base("combo")
+        public ComboMap() : base("combo")
         {
         }
 

@@ -6,7 +6,7 @@ namespace CpmPedido.Repository.Maps
 {
     public class ImagemMap : BaseDomainMap<Imagem>
     {
-        ImagemMap() : base("imagem")
+        public ImagemMap() : base("imagem")
         {
         }
 
