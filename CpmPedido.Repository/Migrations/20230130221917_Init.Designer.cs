@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CpmPedido.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230130204623_Init")]
+    [Migration("20230130221917_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -192,7 +192,6 @@ namespace CpmPedido.Repository.Migrations
                         .HasColumnName("cidadeid");
 
                     b.Property<string>("Complemento")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("complemento");

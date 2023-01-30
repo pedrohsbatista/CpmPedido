@@ -92,7 +92,7 @@ namespace CpmPedido.Repository.Migrations
                     logradouro = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     bairro = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     numero = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    complemento = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    complemento = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     cep = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false),
                     cidadeid = table.Column<long>(type: "bigint", nullable: false),
                     datainclusao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)

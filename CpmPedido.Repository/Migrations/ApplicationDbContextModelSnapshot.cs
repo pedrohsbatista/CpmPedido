@@ -190,7 +190,6 @@ namespace CpmPedido.Repository.Migrations
                         .HasColumnName("cidadeid");
 
                     b.Property<string>("Complemento")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("complemento");

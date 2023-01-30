@@ -1,4 +1,6 @@
-﻿namespace CpmPedido.Api
+﻿using CpmPedido.Repository.Repositories;
+
+namespace CpmPedido.Api
 {
     public class DependencyInjector
     {
@@ -9,6 +11,7 @@
 
         private static void RepositoryDependence(IServiceCollection serviceProvider)
         {
+            serviceProvider.AddScoped<IProdutoRepository, ProdutoRepository>();
         }
     }
 }
