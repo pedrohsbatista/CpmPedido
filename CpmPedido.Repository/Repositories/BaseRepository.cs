@@ -6,6 +6,8 @@ namespace CpmPedido.Repository.Repositories
     {
         protected readonly ApplicationDbContext DbContext;
 
+        protected readonly int SizePage = 5;
+
         public BaseRepository(ApplicationDbContext dbContext)
         {
             DbContext = dbContext;

@@ -6,7 +6,7 @@ namespace CpmPedido.Repository.Repositories
     {
         List<Produto> Get();
 
-        List<Produto> Search(string text);
+        List<Produto> Search(string text, int page);
 
         Produto Detail(long id);
     }

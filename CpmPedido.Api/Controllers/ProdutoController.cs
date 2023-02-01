@@ -20,11 +20,11 @@ namespace CpmPedido.Api.Controllers
         }
 
         [HttpGet]
-        [Route("search/{text}")]
-        public IEnumerable<Produto> GetSearch(string text)
+        [Route("search/{text}/{page?}")]
+        public IEnumerable<Produto> GetSearch(string text, int page = 1)
         {
             var repoProduto = (IProdutoRepository)ServiceProvider.GetService(typeof(IProdutoRepository));
-            return repoProduto.Search(text);
+            return repoProduto.Search(text, page);
         }
 
         [HttpGet]

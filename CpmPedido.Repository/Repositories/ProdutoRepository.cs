@@ -19,13 +19,15 @@ namespace CpmPedido.Repository.Repositories
                                     .ToList();
         }
 
-        public List<Produto> Search(string text)
+        public List<Produto> Search(string text, int page)
         {
             return DbContext.Produtos.Include(x => x.CategoriaProduto)
                                     .Where(x => x.Ativo
                                     && (x.Descricao.ToUpper().Contains(text.ToUpper()) 
                                     || x.Nome.ToUpper().Contains(text.ToUpper())))
                                     .OrderBy(x => x.Nome)
+                                    .Skip(SizePage * (page - 1))
+                                    .Take(SizePage)                                    
                                     .ToList();
         }
 
