@@ -26,5 +26,13 @@ namespace CpmPedido.Api.Controllers
             var repoProduto = (IProdutoRepository)ServiceProvider.GetService(typeof(IProdutoRepository));
             return repoProduto.Search(text);
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public Produto GetDetail(long id)
+        {
+            var repoProduto = (IProdutoRepository)ServiceProvider.GetService(typeof(IProdutoRepository));
+            return repoProduto.Detail(id);
+        }
     }
 }

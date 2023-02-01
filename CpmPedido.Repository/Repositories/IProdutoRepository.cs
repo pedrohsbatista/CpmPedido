@@ -7,5 +7,7 @@ namespace CpmPedido.Repository.Repositories
         List<Produto> Get();
 
         List<Produto> Search(string text);
+
+        Produto Detail(long id);
     }
 }

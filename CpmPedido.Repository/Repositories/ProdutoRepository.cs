@@ -1,5 +1,6 @@
 ﻿using CpmPedido.Domain.Entities;
 using CpmPedido.Repository.Common;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace CpmPedido.Repository.Repositories
@@ -12,16 +13,29 @@ namespace CpmPedido.Repository.Repositories
 
         public List<Produto> Get()
         {
-            return DbContext.Produtos.Where(x => x.Ativo).OrderBy(x => x.Nome).ToList();
+            return DbContext.Produtos.Include(x => x.CategoriaProduto)
+                                    .Where(x => x.Ativo)
+                                    .OrderBy(x => x.Nome)
+                                    .ToList();
         }
 
         public List<Produto> Search(string text)
         {
-            return DbContext.Produtos.Where(x => x.Ativo
-                                            && (x.Descricao.ToUpper().Contains(text.ToUpper()) 
-                                            || x.Nome.ToUpper().Contains(text.ToUpper())))
-                                            .OrderBy(x => x.Nome)
-                                            .ToList();
+            return DbContext.Produtos.Include(x => x.CategoriaProduto)
+                                    .Where(x => x.Ativo
+                                    && (x.Descricao.ToUpper().Contains(text.ToUpper()) 
+                                    || x.Nome.ToUpper().Contains(text.ToUpper())))
+                                    .OrderBy(x => x.Nome)
+                                    .ToList();
+        }
+
+        public Produto Detail(long id)
+        {
+            return DbContext.Produtos
+                            .Include(x => x.CategoriaProduto)
+                            .Include(x => x.Imagens)
+                            .Where(x => x.Ativo && x.Id == id)
+                            .FirstOrDefault();
         }
     }
 }
