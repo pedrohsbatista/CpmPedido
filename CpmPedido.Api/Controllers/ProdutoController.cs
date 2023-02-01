@@ -1,5 +1,5 @@
 ﻿using CpmPedido.Domain.Entities;
-using CpmPedido.Repository.Repositories;
+using CpmPedido.Interfaces.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CpmPedido.Api.Controllers
@@ -21,7 +21,7 @@ namespace CpmPedido.Api.Controllers
 
         [HttpGet]
         [Route("search/{text}/{page?}")]
-        public IEnumerable<Produto> GetSearch(string text, int page = 1)
+        public dynamic GetSearch(string text, int page = 1)
         {
             var repoProduto = (IProdutoRepository)ServiceProvider.GetService(typeof(IProdutoRepository));
             return repoProduto.Search(text, page);

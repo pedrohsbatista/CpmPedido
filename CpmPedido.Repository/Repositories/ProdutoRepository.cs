@@ -1,7 +1,9 @@
 ﻿using CpmPedido.Domain.Entities;
+using CpmPedido.Interfaces.Repositories;
 using CpmPedido.Repository.Common;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace CpmPedido.Repository.Repositories
 {
@@ -19,16 +21,24 @@ namespace CpmPedido.Repository.Repositories
                                     .ToList();
         }
 
-        public List<Produto> Search(string text, int page)
+        public dynamic Search(string text, int page)
         {
-            return DbContext.Produtos.Include(x => x.CategoriaProduto)
-                                    .Where(x => x.Ativo
-                                    && (x.Descricao.ToUpper().Contains(text.ToUpper()) 
-                                    || x.Nome.ToUpper().Contains(text.ToUpper())))
+            Expression<Func<Produto, bool>> where = x => x.Ativo
+                                    && (x.Descricao.ToUpper().Contains(text.ToUpper())
+                                    || x.Nome.ToUpper().Contains(text.ToUpper()));
+
+            var produtos = DbContext.Produtos.Include(x => x.CategoriaProduto)
+                                    .Where(where)
                                     .OrderBy(x => x.Nome)
                                     .Skip(SizePage * (page - 1))
                                     .Take(SizePage)                                    
                                     .ToList();
+
+            var totalProdutos = DbContext.Produtos.Where(where).Count();
+
+            var totalPages = totalProdutos / SizePage + 1;          
+
+            return new { produtos, totalPages };
         }
 
         public Produto Detail(long id)
