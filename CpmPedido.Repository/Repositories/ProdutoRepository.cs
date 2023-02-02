@@ -13,10 +13,22 @@ namespace CpmPedido.Repository.Repositories
         {            
         }
 
-        public List<Produto> Get()
+        public dynamic Get()
         {
             return DbContext.Produtos.Include(x => x.CategoriaProduto)
                                     .Where(x => x.Ativo)
+                                    .Select(x => new
+                                    {
+                                        x.Nome,
+                                        x.Preco,
+                                        Categoria = x.CategoriaProduto.Nome,
+                                        Imagens = x.Imagens.Select(y => new
+                                        {
+                                            y.Id,
+                                            y.Nome,
+                                            y.NomeArquivo
+                                        })
+                                    })
                                     .OrderBy(x => x.Nome)
                                     .ToList();
         }
@@ -29,6 +41,18 @@ namespace CpmPedido.Repository.Repositories
 
             var produtos = DbContext.Produtos.Include(x => x.CategoriaProduto)
                                     .Where(where)
+                                    .Select(x => new
+                                    {
+                                        x.Nome,
+                                        x.Preco,
+                                        Categoria = x.CategoriaProduto.Nome,
+                                        Imagens = x.Imagens.Select(y => new
+                                        {
+                                            y.Id,
+                                            y.Nome,
+                                            y.NomeArquivo
+                                        })
+                                    })
                                     .OrderBy(x => x.Nome)
                                     .Skip(SizePage * (page - 1))
                                     .Take(SizePage)                                    
@@ -41,13 +65,46 @@ namespace CpmPedido.Repository.Repositories
             return new { produtos, totalPages };
         }
 
-        public Produto Detail(long id)
+        public dynamic Detail(long id)
         {
             return DbContext.Produtos
                             .Include(x => x.CategoriaProduto)
                             .Include(x => x.Imagens)
                             .Where(x => x.Ativo && x.Id == id)
+                            .Select(x => new
+                            {
+                                x.Id,
+                                x.Nome,
+                                x.Codigo,
+                                x.Descricao,
+                                x.Preco,                               
+                                Categoria = new
+                                {
+                                    x.CategoriaProduto.Id,
+                                    x.CategoriaProduto.Nome
+                                },
+                                Imagens = x.Imagens.Select(y => new
+                                {
+                                    y.Id,
+                                    y.Nome,
+                                    y.NomeArquivo
+                                })
+                            })
                             .FirstOrDefault();
+        }
+
+        public dynamic Imagens(long id)
+        {
+            return DbContext.Produtos
+                .Include(x => x.Imagens)
+                .Where(x => x.Ativo && x.Id == id)
+                .SelectMany(x => x.Imagens, (produto, imagem) => new
+                {
+                    ProdutoId = produto.Id,
+                    imagem.Id,
+                    imagem.Nome,
+                    imagem.NomeArquivo
+                });
         }
     }
 }

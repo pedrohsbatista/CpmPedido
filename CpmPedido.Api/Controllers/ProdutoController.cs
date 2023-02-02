@@ -13,7 +13,7 @@ namespace CpmPedido.Api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Produto> Get()
+        public dynamic Get()
         {
             var repoProduto = (IProdutoRepository)ServiceProvider.GetService(typeof(IProdutoRepository));
             return repoProduto.Get();
@@ -29,10 +29,18 @@ namespace CpmPedido.Api.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public Produto GetDetail(long id)
+        public dynamic GetDetail(long id)
         {
             var repoProduto = (IProdutoRepository)ServiceProvider.GetService(typeof(IProdutoRepository));
             return repoProduto.Detail(id);
         }
+
+        [HttpGet]
+        [Route("images/{id}")]
+        public dynamic GetImagens(long id)
+        {
+            var repoProduto = (IProdutoRepository)ServiceProvider.GetService(typeof(IProdutoRepository));
+            return repoProduto.Imagens(id);
+        }        
     }
 }

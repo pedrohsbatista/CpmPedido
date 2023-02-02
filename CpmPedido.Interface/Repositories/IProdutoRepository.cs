@@ -4,10 +4,12 @@ namespace CpmPedido.Interfaces.Repositories
 {
     public interface IProdutoRepository
     {
-        List<Produto> Get();
+        dynamic Get();
 
         dynamic Search(string text, int page);
 
-        Produto Detail(long id);
+        dynamic Detail(long id);
+
+        dynamic Imagens(long id);
     }
 }
