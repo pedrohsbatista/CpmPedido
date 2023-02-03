@@ -18,5 +18,13 @@ namespace CpmPedido.Api.Controllers
             var repoPedido = (IPedidoRepository)ServiceProvider.GetService(typeof(IPedidoRepository));
             return repoPedido.TicketMaximum();
         }
+
+        [HttpGet]
+        [Route("bycliente")]
+        public dynamic GetByCliente()
+        {
+            var repoPedido = (IPedidoRepository)ServiceProvider.GetService(typeof(IPedidoRepository));
+            return repoPedido.ByCliente();
+        }
     }
 }

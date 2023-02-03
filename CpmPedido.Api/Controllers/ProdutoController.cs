@@ -37,7 +37,7 @@ namespace CpmPedido.Api.Controllers
 
         [HttpGet]
         [Route("images/{id}")]
-        public dynamic GetImagens(long id)
+        public dynamic GetImages(long id)
         {
             var repoProduto = (IProdutoRepository)ServiceProvider.GetService(typeof(IProdutoRepository));
             return repoProduto.Imagens(id);

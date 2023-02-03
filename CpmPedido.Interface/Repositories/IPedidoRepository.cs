@@ -3,5 +3,7 @@
     public interface IPedidoRepository
     {
         decimal TicketMaximum();
+
+        dynamic ByCliente();
     }
 }
