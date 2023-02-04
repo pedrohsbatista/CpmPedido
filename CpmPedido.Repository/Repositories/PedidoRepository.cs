@@ -4,7 +4,7 @@ using CpmPedido.Repository.Common;
 
 namespace CpmPedido.Repository.Repositories
 {
-    public class PedidoRepository : BaseRepository, IPedidoRepository
+    public class PedidoRepository : BaseRepository<Pedido>, IPedidoRepository
     {
         public PedidoRepository(ApplicationDbContext dbContext) : base(dbContext)
         {

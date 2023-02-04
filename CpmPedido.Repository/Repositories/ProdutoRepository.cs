@@ -7,56 +7,64 @@ using System.Linq.Expressions;
 
 namespace CpmPedido.Repository.Repositories
 {
-    public class ProdutoRepository : BaseRepository, IProdutoRepository
+    public class ProdutoRepository : BaseRepository<Produto>, IProdutoRepository
     {        
         public ProdutoRepository(ApplicationDbContext dbContext) : base(dbContext)
         {            
         }
 
-        public dynamic Get()
+        public dynamic Get(string order)
         {
-            return DbContext.Produtos.Include(x => x.CategoriaProduto)
-                                    .Where(x => x.Ativo)
-                                    .Select(x => new
-                                    {
-                                        x.Nome,
-                                        x.Preco,
-                                        Categoria = x.CategoriaProduto.Nome,
-                                        Imagens = x.Imagens.Select(y => new
-                                        {
-                                            y.Id,
-                                            y.Nome,
-                                            y.NomeArquivo
-                                        })
-                                    })
-                                    .OrderBy(x => x.Nome)
-                                    .ToList();
+            var queryProduto = DbContext.Produtos
+                                    .Include(x => x.CategoriaProduto)
+                                    .Where(x => x.Ativo);                                    
+
+            queryProduto = Order(queryProduto, x => x.Nome, order);
+
+            var queryResult = queryProduto.Select(x => new
+            {
+                x.Nome,
+                x.Preco,
+                Categoria = x.CategoriaProduto.Nome,
+                Imagens = x.Imagens.Select(y => new
+                {
+                    y.Id,
+                    y.Nome,
+                    y.NomeArquivo
+                })
+            });
+
+            return queryResult.ToList();
         }
 
-        public dynamic Search(string text, int page)
+        public dynamic Search(string text, int page, string order)
         {
             Expression<Func<Produto, bool>> where = x => x.Ativo
                                     && (x.Descricao.ToUpper().Contains(text.ToUpper())
                                     || x.Nome.ToUpper().Contains(text.ToUpper()));
 
-            var produtos = DbContext.Produtos.Include(x => x.CategoriaProduto)
-                                    .Where(where)
-                                    .Select(x => new
-                                    {
-                                        x.Nome,
-                                        x.Preco,
-                                        Categoria = x.CategoriaProduto.Nome,
-                                        Imagens = x.Imagens.Select(y => new
-                                        {
-                                            y.Id,
-                                            y.Nome,
-                                            y.NomeArquivo
-                                        })
-                                    })
-                                    .OrderBy(x => x.Nome)
-                                    .Skip(SizePage * (page - 1))
-                                    .Take(SizePage)                                    
-                                    .ToList();
+            var queryProduto = DbContext.Produtos
+                                    .Include(x => x.CategoriaProduto)
+                                    .Where(where);
+                                    
+            queryProduto = Order(queryProduto, x => x.Nome, order);
+
+            var query = queryProduto.Select(x => new
+                         {
+                             x.Nome,
+                             x.Preco,
+                             Categoria = x.CategoriaProduto.Nome,
+                             Imagens = x.Imagens.Select(y => new
+                             {
+                                 y.Id,
+                                 y.Nome,
+                                 y.NomeArquivo
+                             })
+                         });
+
+            var produtos = query.Skip(SizePage * (page - 1))
+                                 .Take(SizePage)
+                                 .ToList();
 
             var totalProdutos = DbContext.Produtos.Where(where).Count();
 
