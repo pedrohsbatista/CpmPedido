@@ -15,7 +15,7 @@ namespace CpmPedido.Api.Controllers
         [HttpGet]
         public dynamic Get([FromQuery] string? order)
         {
-            var repoProduto = (IProdutoRepository)ServiceProvider.GetService(typeof(IProdutoRepository));
+            var repoProduto = GetService<IProdutoRepository>();
             return repoProduto.Get(order);
         }
 
@@ -23,7 +23,7 @@ namespace CpmPedido.Api.Controllers
         [Route("search/{text}/{page?}")]
         public dynamic GetSearch(string text, int page = 1, [FromQuery] string? order = null)
         {
-            var repoProduto = (IProdutoRepository)ServiceProvider.GetService(typeof(IProdutoRepository));
+            var repoProduto = GetService<IProdutoRepository>();
             return repoProduto.Search(text, page, order);
         }
 
@@ -31,7 +31,7 @@ namespace CpmPedido.Api.Controllers
         [Route("{id}")]
         public dynamic GetDetail(long id)
         {
-            var repoProduto = (IProdutoRepository)ServiceProvider.GetService(typeof(IProdutoRepository));
+            var repoProduto = GetService<IProdutoRepository>();
             return repoProduto.Detail(id);
         }
 
@@ -39,7 +39,7 @@ namespace CpmPedido.Api.Controllers
         [Route("images/{id}")]
         public dynamic GetImages(long id)
         {
-            var repoProduto = (IProdutoRepository)ServiceProvider.GetService(typeof(IProdutoRepository));
+            var repoProduto = GetService<IProdutoRepository>();
             return repoProduto.Imagens(id);
         }        
     }

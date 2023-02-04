@@ -10,5 +10,10 @@ namespace CpmPedido.Api.Controllers
         {
             ServiceProvider = serviceProvider;
         }
+
+        protected T GetService<T>()
+        {
+            return ServiceProvider.GetService<T>();
+        }
     }
 }

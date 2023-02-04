@@ -15,7 +15,7 @@ namespace CpmPedido.Api.Controllers
         [Route("ticketmaximum")]
         public decimal GetTicketMaximum()
         {
-            var repoPedido = (IPedidoRepository)ServiceProvider.GetService(typeof(IPedidoRepository));
+            var repoPedido = GetService<IPedidoRepository>();
             return repoPedido.TicketMaximum();
         }
 
@@ -23,7 +23,7 @@ namespace CpmPedido.Api.Controllers
         [Route("bycliente")]
         public dynamic GetByCliente()
         {
-            var repoPedido = (IPedidoRepository)ServiceProvider.GetService(typeof(IPedidoRepository));
+            var repoPedido = GetService<IPedidoRepository>();
             return repoPedido.ByCliente();
         }
     }
