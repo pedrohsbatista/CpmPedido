@@ -76,6 +76,25 @@ namespace CpmPedido.Repository.Repositories
             }
         }
 
+        public bool Delete(long id)
+        {
+            var cidade = DbContext.Cidades.Find(id);
+
+            if (cidade == null)
+                return false;
+
+            try
+            {
+                DbContext.Cidades.Remove(cidade);
+                DbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         private bool IsValid(CidadeDto cidadeDto)
         {
             return !DbContext.Cidades.Any(x => x.Ativo 

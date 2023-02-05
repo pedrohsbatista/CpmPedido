@@ -33,5 +33,13 @@ namespace CpmPedido.Api.Controllers
             var repoCidade = GetService<ICidadeRepository>();
             return repoCidade.Update(cidadeDto);
         }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public bool Delete(long id)
+        {
+            var repoCidade = GetService<ICidadeRepository>();
+            return repoCidade.Delete(id);
+        }
     }
 }
