@@ -27,9 +27,7 @@ namespace CpmPedido.Repository.Repositories
 
         public long Insert(CidadeDto cidadeDto)
         {
-            var exists = DbContext.Cidades.Any(x => x.Ativo && x.Nome.ToUpper() == cidadeDto.Nome.ToUpper());
-
-            if (exists || cidadeDto.Id > 0)
+            if (!IsValid(cidadeDto) || cidadeDto.Id > 0)
                 return 0;
 
             var cidade = new Cidade
@@ -51,6 +49,38 @@ namespace CpmPedido.Repository.Repositories
             {
                 throw;
             }           
+        }
+
+        public long Update(CidadeDto cidadeDto)
+        {
+            var cidade = DbContext.Cidades.Find(cidadeDto.Id);
+
+            if (cidade == null || !IsValid(cidadeDto))
+                return 0;
+
+            cidade.Nome = cidadeDto.Nome;
+            cidade.Uf = cidadeDto.Uf;
+            cidade.Ativo = cidadeDto.Ativo;
+
+            try
+            {
+                DbContext.Cidades.Update(cidade);
+
+                DbContext.SaveChanges();
+
+                return cidade.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private bool IsValid(CidadeDto cidadeDto)
+        {
+            return !DbContext.Cidades.Any(x => x.Ativo 
+                                        && x.Nome.ToUpper() == cidadeDto.Nome.ToUpper()
+                                        && x.Id != cidadeDto.Id);
         }
     }
 }

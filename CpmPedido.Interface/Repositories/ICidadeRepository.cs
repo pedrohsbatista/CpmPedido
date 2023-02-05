@@ -6,5 +6,6 @@ namespace CpmPedido.Interface.Repositories
     {
         dynamic Get();
         long Insert(CidadeDto cidadeDto);
+        long Update(CidadeDto cidadeDto);
     }
 }

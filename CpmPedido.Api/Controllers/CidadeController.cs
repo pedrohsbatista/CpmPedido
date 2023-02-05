@@ -26,5 +26,12 @@ namespace CpmPedido.Api.Controllers
             var repoCidade = GetService<ICidadeRepository>();
             return repoCidade.Insert(cidadeDto);
         }
+
+        [HttpPut]
+        public long Put(CidadeDto cidadeDto)
+        {
+            var repoCidade = GetService<ICidadeRepository>();
+            return repoCidade.Update(cidadeDto);
+        }
     }
 }
