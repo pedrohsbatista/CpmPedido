@@ -1,4 +1,5 @@
-﻿using CpmPedido.Domain.Entities;
+﻿using CpmPedido.Domain.Dtos;
+using CpmPedido.Domain.Entities;
 using CpmPedido.Interfaces.Repositories;
 using CpmPedido.Repository.Common;
 
@@ -43,6 +44,62 @@ namespace CpmPedido.Repository.Repositories
             //                })
             //                .ToList();
 
+        }
+
+        public string Insert(PedidoDto pedidoDto)
+        {
+            try
+            {
+                var pedido = new Pedido
+                {
+                    Numero = GetNextNumeroPedido(),
+                    ClienteId = pedidoDto.ClienteId,
+                    DataInclusao = DateTime.Now,
+                    Produtos = new List<ProdutoPedido>()
+                };
+
+                decimal valorTotal = 0;
+
+                foreach (var produtoPedidoDto in pedidoDto.Produtos)
+                {
+                    var valorUnitario = DbContext.Produtos
+                                        .Where(x => x.Id == produtoPedidoDto.ProdutoId)
+                                        .Select(x => x.Preco)
+                                        .FirstOrDefault();                                      
+
+                    var produtoPedido = new ProdutoPedido
+                    {
+                        ProdutoId = produtoPedidoDto.ProdutoId,
+                        Quantidade = produtoPedidoDto.Quantidade,
+                        Preco = valorUnitario
+                    };
+
+                    pedido.Produtos.Add(produtoPedido);
+
+                    valorTotal += produtoPedidoDto.Quantidade * valorUnitario;
+                }
+
+                pedido.ValorTotal = valorTotal;
+
+                DbContext.Pedidos.Add(pedido);
+
+                DbContext.SaveChanges();
+
+                return pedido.Numero;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private string GetNextNumeroPedido()
+        {
+            var lastNumero = DbContext.Pedidos.Max(x => x.Numero);
+
+            var nextNumero = !string.IsNullOrEmpty(lastNumero) ? Convert.ToInt32(lastNumero) + 1 : 1;
+
+            return nextNumero.ToString("00000");
         }
     }
 }

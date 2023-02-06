@@ -1,4 +1,5 @@
-﻿using CpmPedido.Interfaces.Repositories;
+﻿using CpmPedido.Domain.Dtos;
+using CpmPedido.Interfaces.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CpmPedido.Api.Controllers
@@ -25,6 +26,13 @@ namespace CpmPedido.Api.Controllers
         {
             var repoPedido = GetService<IPedidoRepository>();
             return repoPedido.ByCliente();
+        }
+
+        [HttpPost]
+        public string Post(PedidoDto pedidoDto)
+        {
+            var repoPedido = GetService<IPedidoRepository>();
+            return repoPedido.Insert(pedidoDto);
         }
     }
 }
