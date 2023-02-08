@@ -1,5 +1,6 @@
 ﻿using CpmPedido.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace CpmPedido.Repository.Common
 {
@@ -24,6 +25,11 @@ namespace CpmPedido.Repository.Common
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.LogTo(message => Debug.WriteLine(message));
         }
 
         public ApplicationDbContext()
