@@ -48,6 +48,8 @@ namespace CpmPedido.Repository.Repositories
 
         public string Insert(PedidoDto pedidoDto)
         {
+            using var transaction = DbContext.Database.BeginTransaction();
+
             try
             {
                 var pedido = new Pedido
@@ -85,10 +87,13 @@ namespace CpmPedido.Repository.Repositories
 
                 DbContext.SaveChanges();
 
+                transaction.Commit();
+
                 return pedido.Numero;
             }
             catch (Exception)
             {
+                transaction.Rollback();
                 throw;
             }
         }
