@@ -66,9 +66,9 @@ namespace CpmPedido.Repository.Repositories
                                  .Take(SizePage)
                                  .ToList();
 
-            var totalProdutos = DbContext.Produtos.Where(where).Count();
+            var totalProdutos = DbContext.Produtos.Where(where).Count();            
 
-            var totalPages = totalProdutos / SizePage + 1;          
+            var totalPages = (int)Math.Ceiling((decimal)totalProdutos / SizePage);
 
             return new { produtos, totalPages };
         }
