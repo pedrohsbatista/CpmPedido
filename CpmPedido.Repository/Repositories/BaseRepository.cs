@@ -14,12 +14,12 @@ namespace CpmPedido.Repository.Repositories
             DbContext = dbContext;
         }
 
-        protected IQueryable<T> Order(IQueryable<T> query, Expression<Func<T, string>> orderExpression, string order)
+        protected void Order(ref IQueryable<T> query, Expression<Func<T, string>> orderExpression, string order)
         {
             if (!string.IsNullOrEmpty(order) && order.ToUpper().Equals("DESC"))
-                return query.OrderByDescending(orderExpression);
+                query = query.OrderByDescending(orderExpression);
             else
-                return query.OrderBy(orderExpression);
+                query = query.OrderBy(orderExpression);
         }
     }
 }

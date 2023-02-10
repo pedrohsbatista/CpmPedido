@@ -19,7 +19,7 @@ namespace CpmPedido.Repository.Repositories
                                     .Include(x => x.CategoriaProduto)
                                     .Where(x => x.Ativo);                                    
 
-            queryProduto = Order(queryProduto, x => x.Nome, order);
+            Order(ref queryProduto, x => x.Nome, order);
 
             var queryResult = queryProduto.Select(x => new
             {
@@ -47,7 +47,7 @@ namespace CpmPedido.Repository.Repositories
                                     .Include(x => x.CategoriaProduto)
                                     .Where(where);
                                     
-            queryProduto = Order(queryProduto, x => x.Nome, order);
+            Order(ref queryProduto, x => x.Nome, order);
 
             var query = queryProduto.Select(x => new
                          {
